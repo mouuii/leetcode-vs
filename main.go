@@ -1,10 +1,11 @@
-/*
- * @lc app=leetcode.cn id=22 lang=golang
- *
- * [22] 括号生成
- */
+package main
 
-// @lc code=start
+import "fmt"
+
+func main() {
+	fmt.Println(generateParenthesis((3)))
+}
+
 func generateParenthesis(n int) []string {
 	result := []string{}
 	generate(0, 0, n, "", &result)
@@ -30,6 +31,3 @@ func generate(left int, right int, n int, s string, result *[]string) {
 
 	//reverse
 }
-
-// @lc code=end
-
