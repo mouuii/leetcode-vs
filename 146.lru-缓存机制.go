@@ -1,9 +1,3 @@
-package main
-
-func main() {
-
-}
-
 /*
  * @lc app=leetcode.cn id=146 lang=golang
  *
@@ -51,27 +45,6 @@ func (this *LRUCache) Get(key int) int {
 	this.moveToHead(node)
 	return node.value
 }
-func (this *LRUCache) removeNode(node *DLinkedNode) {
-	node.prev.next = node.next
-	node.next.prev = node.prev
-}
-
-func (this *LRUCache) addToHead(node *DLinkedNode) {
-	node.prev = this.head
-	node.next = this.head.next
-	this.head.next.prev = node
-	this.head.next = node
-}
-
-func (this *LRUCache) moveToHead(node *DLinkedNode) {
-	this.removeNode(node)
-	this.addToHead(node)
-}
-func (this *LRUCache) removeTail() *DLinkedNode {
-	node := this.tail.prev
-	this.removeNode(node)
-	return node
-}
 
 func (this *LRUCache) Put(key int, value int) {
 	if _, ok := this.cache[key]; !ok {
@@ -83,12 +56,35 @@ func (this *LRUCache) Put(key int, value int) {
 			removed := this.removeTail()
 			delete(this.cache, removed.key)
 			this.size--
-		} else {
-			node := this.cache[key]
-			node.value = value
-			this.moveToHead(node)
 		}
+	} else {
+		node := this.cache[key]
+		node.value = value
+		this.moveToHead(node)
 	}
+}
+
+func (this *LRUCache) addToHead(node *DLinkedNode) {
+	node.prev = this.head
+	node.next = this.head.next
+	this.head.next.prev = node
+	this.head.next = node
+}
+
+func (this *LRUCache) removeNode(node *DLinkedNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
+func (this *LRUCache) moveToHead(node *DLinkedNode) {
+	this.removeNode(node)
+	this.addToHead(node)
+}
+
+func (this *LRUCache) removeTail() *DLinkedNode {
+	node := this.tail.prev
+	this.removeNode(node)
+	return node
 }
 
 /**
@@ -98,3 +94,4 @@ func (this *LRUCache) Put(key int, value int) {
  * obj.Put(key,value);
  */
 // @lc code=end
+
